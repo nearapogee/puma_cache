@@ -9,15 +9,11 @@ Procedure:
 - precompile assets (for production test)
   Note: had too precompile with MRI. But that is probably a rubinius issue?
 
-```` bash
-
-rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 rake assets:precompile                       
-WARNING: Possible conflict with Rake extension: String#ext already exists
-WARNING: Possible conflict with Rake extension: String#pathmap already exists
-rake aborted!
-SystemStackError
-
-````
+    rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 rake assets:precompile                       
+    WARNING: Possible conflict with Rake extension: String#ext already exists
+    WARNING: Possible conflict with Rake extension: String#pathmap already exists
+    rake aborted!
+    SystemStackError
 
 == Environment:
 - rbx-2.0.testing (running in 1.9 mode)
@@ -32,100 +28,88 @@ In an application with more assets, it was hit or miss on what got loaded.
 
 == In development:
 
-```` bash
-
-RBXOPT=-X19 bundle exec rails s puma
-
-````
+    RBXOPT=-X19 bundle exec rails s puma
 
 - Everything works!
 
 == In production:
 
-```` bash
-
-RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
-
-````
+    RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
 
 - The following comes up in the logs:
 
-```` bash
-
-rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
-=> Booting Puma
-=> Rails 3.2.2 application starting in production on http://0.0.0.0:3000
-=> Call with -d to detach
-=> Ctrl-C to shutdown server
-Puma 1.0.0 starting...
-* Min threads: 0, max threads: 16
-* Listening on tcp://0.0.0.0:3000
-cache: [GET /] miss
+    rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
+    => Booting Puma
+    => Rails 3.2.2 application starting in production on http://0.0.0.0:3000
+    => Call with -d to detach
+    => Ctrl-C to shutdown server
+    Puma 1.0.0 starting...
+    * Min threads: 0, max threads: 16
+    * Listening on tcp://0.0.0.0:3000
+    cache: [GET /] miss
 
 
-Started GET "/" for 127.0.0.1 at 2012-03-30 09:35:22 -0700
-Processing by HomeController#index as HTML
-  Rendered home/index.html.erb within layouts/application (5.8ms)
-Completed 200 OK in 47ms (Views: 44.6ms | ActiveRecord: 0.0ms)
-cache: [GET /assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css] miss, miss
+    Started GET "/" for 127.0.0.1 at 2012-03-30 09:35:22 -0700
+    Processing by HomeController#index as HTML
+      Rendered home/index.html.erb within layouts/application (5.8ms)
+    Completed 200 OK in 47ms (Views: 44.6ms | ActiveRecord: 0.0ms)
+    cache: [GET /assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css] miss, miss
 
 
-Started GET "/assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css" for 127.0.0.1 at 2012-03-30 09:35:23 -0700
+    Started GET "/assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css" for 127.0.0.1 at 2012-03-30 09:35:23 -0700
 
-ActionController::RoutingError (No route matches [GET] "/assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css"):
-  actionpack (3.2.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
-  actionpack (3.2.2) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
-  railties (3.2.2) lib/rails/rack/logger.rb:26:in `call_app'
-  railties (3.2.2) lib/rails/rack/logger.rb:16:in `call'
-  actionpack (3.2.2) lib/action_dispatch/middleware/request_id.rb:22:in `call'
-  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
-  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
-  activesupport (3.2.2) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
-  rack (1.4.1) lib/rack/lock.rb:15:in `call'
-  rack-cache (1.2) lib/rack/cache/context.rb:136:in `forward'
-  rack-cache (1.2) lib/rack/cache/context.rb:245:in `fetch'
-  rack-cache (1.2) lib/rack/cache/context.rb:185:in `lookup'
-  rack-cache (1.2) lib/rack/cache/context.rb:66:in `call!'
-  rack-cache (1.2) lib/rack/cache/context.rb:49:in `call'
-  railties (3.2.2) lib/rails/engine.rb:479:in `call'
-  railties (3.2.2) lib/rails/application.rb:220:in `call'
-  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
-  railties (3.2.2) lib/rails/rack/log_tailer.rb:14:in `call'
-  puma (1.0.0) lib/puma/server.rb:357:in `handle_request'
-  puma (1.0.0) lib/puma/server.rb:230:in `process_client'
-  puma (1.0.0) lib/puma/server.rb:145:in `run'
-  puma (1.0.0) lib/puma/thread_pool.rb:92:in `spawn_thread'
-  kernel/bootstrap/thread.rb:151:in `__run__'
-
-
-cache: [GET /assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css] miss, miss
+    ActionController::RoutingError (No route matches [GET] "/assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css"):
+      actionpack (3.2.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+      actionpack (3.2.2) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+      railties (3.2.2) lib/rails/rack/logger.rb:26:in `call_app'
+      railties (3.2.2) lib/rails/rack/logger.rb:16:in `call'
+      actionpack (3.2.2) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+      rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+      rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+      activesupport (3.2.2) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+      rack (1.4.1) lib/rack/lock.rb:15:in `call'
+      rack-cache (1.2) lib/rack/cache/context.rb:136:in `forward'
+      rack-cache (1.2) lib/rack/cache/context.rb:245:in `fetch'
+      rack-cache (1.2) lib/rack/cache/context.rb:185:in `lookup'
+      rack-cache (1.2) lib/rack/cache/context.rb:66:in `call!'
+      rack-cache (1.2) lib/rack/cache/context.rb:49:in `call'
+      railties (3.2.2) lib/rails/engine.rb:479:in `call'
+      railties (3.2.2) lib/rails/application.rb:220:in `call'
+      rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+      railties (3.2.2) lib/rails/rack/log_tailer.rb:14:in `call'
+      puma (1.0.0) lib/puma/server.rb:357:in `handle_request'
+      puma (1.0.0) lib/puma/server.rb:230:in `process_client'
+      puma (1.0.0) lib/puma/server.rb:145:in `run'
+      puma (1.0.0) lib/puma/thread_pool.rb:92:in `spawn_thread'
+      kernel/bootstrap/thread.rb:151:in `__run__'
 
 
-Started GET "/404" for 127.0.0.1 at 2012-03-30 09:35:23 -0700
+    cache: [GET /assets/application-95bd4fe1de99c1cd91ec8e6f348a44bd.css] miss, miss
 
-ActionController::RoutingError (No route matches [GET] "/404"):
-  actionpack (3.2.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
-  actionpack (3.2.2) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
-  railties (3.2.2) lib/rails/rack/logger.rb:26:in `call_app'
-  railties (3.2.2) lib/rails/rack/logger.rb:16:in `call'
-  actionpack (3.2.2) lib/action_dispatch/middleware/request_id.rb:22:in `call'
-  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
-  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
-  activesupport (3.2.2) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
-  rack (1.4.1) lib/rack/lock.rb:15:in `call'
-  rack-cache (1.2) lib/rack/cache/context.rb:136:in `forward'
-  rack-cache (1.2) lib/rack/cache/context.rb:245:in `fetch'
-  rack-cache (1.2) lib/rack/cache/context.rb:185:in `lookup'
-  rack-cache (1.2) lib/rack/cache/context.rb:66:in `call!'
-  rack-cache (1.2) lib/rack/cache/context.rb:49:in `call'
-  railties (3.2.2) lib/rails/engine.rb:479:in `call'
-  railties (3.2.2) lib/rails/application.rb:220:in `call'
-  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
-  railties (3.2.2) lib/rails/rack/log_tailer.rb:14:in `call'
-  puma (1.0.0) lib/puma/server.rb:357:in `handle_request'
-  puma (1.0.0) lib/puma/server.rb:230:in `process_client'
-  puma (1.0.0) lib/puma/server.rb:145:in `run'
-  puma (1.0.0) lib/puma/thread_pool.rb:92:in `spawn_thread'
-  kernel/bootstrap/thread.rb:151:in `__run__'
 
-````
+    Started GET "/404" for 127.0.0.1 at 2012-03-30 09:35:23 -0700
+
+    ActionController::RoutingError (No route matches [GET] "/404"):
+      actionpack (3.2.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+      actionpack (3.2.2) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+      railties (3.2.2) lib/rails/rack/logger.rb:26:in `call_app'
+      railties (3.2.2) lib/rails/rack/logger.rb:16:in `call'
+      actionpack (3.2.2) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+      rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+      rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+      activesupport (3.2.2) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+      rack (1.4.1) lib/rack/lock.rb:15:in `call'
+      rack-cache (1.2) lib/rack/cache/context.rb:136:in `forward'
+      rack-cache (1.2) lib/rack/cache/context.rb:245:in `fetch'
+      rack-cache (1.2) lib/rack/cache/context.rb:185:in `lookup'
+      rack-cache (1.2) lib/rack/cache/context.rb:66:in `call!'
+      rack-cache (1.2) lib/rack/cache/context.rb:49:in `call'
+      railties (3.2.2) lib/rails/engine.rb:479:in `call'
+      railties (3.2.2) lib/rails/application.rb:220:in `call'
+      rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+      railties (3.2.2) lib/rails/rack/log_tailer.rb:14:in `call'
+      puma (1.0.0) lib/puma/server.rb:357:in `handle_request'
+      puma (1.0.0) lib/puma/server.rb:230:in `process_client'
+      puma (1.0.0) lib/puma/server.rb:145:in `run'
+      puma (1.0.0) lib/puma/thread_pool.rb:92:in `spawn_thread'
+      kernel/bootstrap/thread.rb:151:in `__run__'
