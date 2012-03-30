@@ -10,11 +10,13 @@ Procedure:
   Note: had too precompile with MRI. But that is probably a rubinius issue?
 
 ```` bash
+
 rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 rake assets:precompile                       
 WARNING: Possible conflict with Rake extension: String#ext already exists
 WARNING: Possible conflict with Rake extension: String#pathmap already exists
 rake aborted!
 SystemStackError
+
 ````
 
 == Environment:
@@ -31,7 +33,9 @@ In an application with more assets, it was hit or miss on what got loaded.
 == In development:
 
 ```` bash
+
 RBXOPT=-X19 bundle exec rails s puma
+
 ````
 
 - Everything works!
@@ -39,12 +43,15 @@ RBXOPT=-X19 bundle exec rails s puma
 == In production:
 
 ```` bash
+
 RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
+
 ````
 
 - The following comes up in the logs:
 
 ```` bash
+
 rbx-2.0.testing sandbox/rails/puma_cache% RBXOPT=-X19 RAILS_ENV=production bundle exec rails s puma
 => Booting Puma
 => Rails 3.2.2 application starting in production on http://0.0.0.0:3000
@@ -120,4 +127,5 @@ ActionController::RoutingError (No route matches [GET] "/404"):
   puma (1.0.0) lib/puma/server.rb:145:in `run'
   puma (1.0.0) lib/puma/thread_pool.rb:92:in `spawn_thread'
   kernel/bootstrap/thread.rb:151:in `__run__'
+
 ````
